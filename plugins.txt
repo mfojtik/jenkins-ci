@@ -1,0 +1,9 @@
+credentials:1.22
+plain-credentials:1.1
+ssh-agent:1.5
+github:1.9.1
+github-api:1.68
+scm-api:0.2
+git-client:1.10.1
+git:2.3.4
+ghprb:1.27
