@@ -1,4 +1,8 @@
 #!/bin/bash
 
-# Do nothing for now
+# Install the 'slave.jar' from the Jenkins master
+# FIXME: This should be full router URL
+curl http://jenkins:8080/jnlpJars/slave.jar > /opt/app-root/jenkins/slave.jar
+
+# Keep the container running forever (Jenkins will start the slave)
 sleep infinity

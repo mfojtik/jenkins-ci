@@ -12,11 +12,42 @@
     {
       "name": "IMAGE_NAME",
       "description": "The name of the S2I image stream to use as a Jenkins slave",
-      "value": "ruby-20-centos7",
+      "value": "ruby-22-centos7",
       "required": true
     }
   ],
   "objects": [
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "jenkins-slave"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "protocol": "TCP",
+            "port": 8080,
+            "targetPort": 8080,
+            "nodePort": 0
+          },
+          {
+            "name": "jnlp",
+            "protocol": "TCP",
+            "port": 49187,
+            "targetPort": 49187,
+            "nodePort": 0
+          }
+        ],
+        "selector": {
+          "name": "${IMAGE_NAME}-jenkins-slave"
+        },
+        "portalIP": "",
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      }
+    },
     {
       "kind": "ImageStream",
       "apiVersion": "v1",
@@ -117,7 +148,7 @@
             "type": "ConfigChange"
           }
         ],
-        "replicas": 2,
+        "replicas": 1,
         "selector": {
           "name": "${IMAGE_NAME}-jenkins-slave"
         },

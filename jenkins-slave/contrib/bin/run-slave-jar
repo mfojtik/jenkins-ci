@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# This script is meant to be run by the Jenkins when addint a new slave:
+#
+# Launch method: Launch slave via execution of command on the Master
+# Launch command: /usr/local/bin/launch-slave.sh
+#
+# This command will then connect to the slave pod and execute this script:
+#
+exec java -jar /opt/app-root/jenkins/slave.jar
