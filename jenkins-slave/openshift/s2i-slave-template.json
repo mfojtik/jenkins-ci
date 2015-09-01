@@ -41,7 +41,7 @@
           }
         ],
         "selector": {
-          "name": "${IMAGE_NAME}-jenkins-slave"
+          "name": "jenkins-slave"
         },
         "portalIP": "",
         "type": "ClusterIP",
