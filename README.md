@@ -18,10 +18,7 @@ Project* and then click on *Show All Templates*.  You should see
 *jenkins-ephemeral* and *s2i-jenkins-slave* template there.
 
 First, click on the *jenkins-ephemeral* and change the `JENKINS_IMAGE` to
-*mfojtik/jenkins-master*. Now you have to set the `JENKINS_SLAVE_NAME` to be in
-the following format: `${IMAGE_NAME}-jenkins-slave`. In case you set the
-`IMAGE_NAME` to `ruby-22-centos7`, the value will be
-`ruby-22-centos7-jenkins-slave`. Now click *Create*. You will be then taken to
+*mfojtik/jenkins-master*. Now click *Create*. You will be then taken to
 the dashboard and you can watch the Jenkins to be deployed.
 
 Second, click on the *s2i-jenkins-slave* template. It is important to enter the

@@ -150,12 +150,12 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "${IMAGE_NAME}-jenkins-slave"
+          "name": "jenkins-slave"
         },
         "template": {
           "metadata": {
             "labels": {
-              "name": "${IMAGE_NAME}-jenkins-slave"
+              "name": "jenkins-slave"
             }
           },
           "spec": {
