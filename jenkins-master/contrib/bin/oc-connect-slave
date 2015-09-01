@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
+CERT_AUTH_PATH="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+
+alias oc="oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL"
+
+JENKINS_SLAVE=`oc get pod -l name=$JENKINS_SLAVE_NAME -t "{{ (index .items 0).metadata.name }}"`
+oc exec -it ${JENKINS_SLAVE} /bin/bash
