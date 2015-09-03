@@ -50,6 +50,5 @@ https://jenkins.ci.router.default.svc.cluster.local/computer/new
 Now choose a *Dumb Slave* assign a name to the new node (eg. `ruby-22-builder`).
 Next, you have to configure the new node:
 
-* **Remote root directory:** */opt/app-root/src*
-* **Launch method:** *Launch slave via execution of command on the Master*
-* **Launch command:** */usr/local/bin/oc-connect-slave*
+![Add Jenkins Slave](https://raw.githubusercontent.com/mfojtik/jenkins-ci/master/docs/jenkins-slave.png)
+
