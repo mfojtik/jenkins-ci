@@ -5,7 +5,8 @@
     "name": "s2i-jenkins-slave",
     "creationTimestamp": null,
     "annotations": {
-      "description": "This template will convert an arbitrary S2I image to a jenkins slave"
+      "description": "Provides Jenkins slave based on S2I Docker image",
+      "iconClass": "icon-jenkins"
     }
   },
   "parameters": [

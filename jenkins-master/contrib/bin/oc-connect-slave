@@ -1,13 +1,24 @@
 #!/bin/sh -e
+#
+# This script connects Jenkins to a Jenkins slave that is running as a Pod.
+# You can provide the Pod name as first parameter. When omitted, it will attempt
+# to lookup a Pod name using JENKINS_SLAVE_NAME variable. If this variable is
+# not set, it will default to a Pod with "jenkins-slave" label.
+#
+# This script should be used in the Manage Jenkins/Manage Nodes screen when
+# adding a new node.
+
+JENKINS_SLAVE=$1
 
 OS_PROJECT_NAME=${OS_PROJECT_NAME:-"ci"}
 OS_API_URL=${OS_API_URL:-"https://openshift.default.svc.cluster.local"}
-JENKINS_SLAVE_NAME=${JENKINS_SLAVE_NAME:-"jenkins-slave"}
-
 AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
 CERT_AUTH_PATH="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
 alias oc="oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL"
 
-JENKINS_SLAVE=`oc get pod -l name=$JENKINS_SLAVE_NAME -t "{{ (index .items 0).metadata.name }}"`
+if [ -z "${JENKINS_SLAVE}" ]; then
+  JENKINS_SLAVE=`oc get pod -l name=${JENKINS_SLAVE_NAME:-"jenkins-slave"} -t "{{ (index .items 0).metadata.name }}"`
+fi
+
 oc exec -i ${JENKINS_SLAVE} -- /bin/bash -c /usr/local/bin/run-slave-jar
