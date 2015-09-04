@@ -6,7 +6,17 @@
 # Launch command: /usr/local/bin/launch-slave.sh
 #
 # This command will then connect to the slave pod and execute this script:
-#
+
+function generate_passwd_file() {
+  export USER_ID=$1
+  export GROUP_ID=$2
+  envsubst < /opt/app-root/jenkins/passwd.template > /opt/app-root/jenkins/passwd
+  export LD_PRELOAD=libnss_wrapper.so
+  export NSS_WRAPPER_PASSWD=/opt/app-root/jenkins/passwd
+  export NSS_WRAPPER_GROUP=/etc/group
+}
+
+generate_passwd_file `id -u` `id -g`
 
 curl http://jenkins:8080/jnlpJars/slave.jar -o /opt/app-root/jenkins/slave.jar
 exec java -jar /opt/app-root/jenkins/slave.jar
