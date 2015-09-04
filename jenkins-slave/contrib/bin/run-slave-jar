@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 #
 # This script is meant to be run by the Jenkins when addint a new slave:
 #
@@ -7,4 +7,6 @@
 #
 # This command will then connect to the slave pod and execute this script:
 #
+
+curl http://jenkins:8080/jnlpJars/slave.jar -o /opt/app-root/jenkins/slave.jar
 exec java -jar /opt/app-root/jenkins/slave.jar
