@@ -2,7 +2,6 @@ FROM openshift/jenkins-1-centos7
 
 # Install 'git' binary needed for the Github plugin
 USER root
-RUN yum install -y git && yum clean all
 
 # Install the Jenkins plugin listed in 'plugins.txt'
 COPY plugins.txt /opt/openshift/configuration/plugins.txt
