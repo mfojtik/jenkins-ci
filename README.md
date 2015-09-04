@@ -4,7 +4,7 @@
 
 * `git clone https://github.com/mfojtik/jenkins-ci`
 * `oc new-project ci`
-* `oc create -f jenkins-ci/jenkins-master/openshift/jenkins-master-ephemeral.json
+* `oc create -f jenkins-ci/jenkins-master/openshift/jenkins-master-ephemeral.json`
 * `oc create -f jenkins-ci/jenkins-slave/openshift/s2i-slave-template.json`
 
 You also need to allow Jenkins to execute the `oc` commands against the
