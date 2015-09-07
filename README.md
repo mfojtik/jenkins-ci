@@ -1,13 +1,21 @@
 # OpenShift Jenkins CI example
 
+This repository contains an example of Jenkins setup, that is configured to
+provide a CI/pipeline workflow for the
+[sample-app](https://github.com/mfojtik/sample-app) repository.
+
 ## Step 1: Create the CI project and templates:
 
-* `git clone https://github.com/mfojtik/jenkins-ci`
-* `oc new-project ci`
-* `oc policy add-role-to-user edit system:serviceaccount:ci:default`
-* `oc create -f jenkins-ci/jenkins-master/openshift/jenkins-master-ephemeral.json`
-* `oc create -f jenkins-ci/jenkins-slave/openshift/s2i-slave-template.json`
-* `oc create -f jenkins-ci/sample-app/sample-app-template.json`
+To start, you have to manually enter following commands in OpenShift:
+
+```console
+$ git clone https://github.com/mfojtik/jenkins-ci
+$ oc new-project ci
+$ oc policy add-role-to-user edit system:serviceaccount:ci:default
+$ oc create -f jenkins-ci/jenkins-master/openshift/jenkins-master-ephemeral.json
+$ oc create -f jenkins-ci/jenkins-slave/openshift/s2i-slave-template.json
+$ oc create -f jenkins-ci/sample-app/sample-app-template.json
+```
 
 ## Step 2: Instantiating templates
 
