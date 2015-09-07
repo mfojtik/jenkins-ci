@@ -22,4 +22,4 @@ generate_passwd_file `id -u` `id -g`
 
 curl http://jenkins:8080/jnlpJars/slave.jar -o ${HOME}/slave.jar
 
-cd ${HOME} && exec java -jar /opt/app-root/jenkins/slave.jar
+cd ${HOME} && exec java -jar /opt/app-root/jenkins/slave.jar -jar-cache ${HOME}
