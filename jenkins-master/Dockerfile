@@ -10,8 +10,7 @@ RUN rm -rf /opt/openshift/configuration/jobs && \
 COPY configuration/* /opt/openshift/configuration/
 
 # Install the Jenkins plugin listed in 'plugins.txt'
-RUN /usr/local/bin/plugins.sh /opt/openshift/configuration/plugins.txt
+RUN /usr/local/bin/plugins.sh /opt/openshift/configuration/plugins.txt && \
+    chmod go+rw -R /opt/openshift
 
-# Cleanup
-RUN rm -rf /opt/openshift/configuration/jobs/* && chmod go+rw -R /opt/openshift
 USER 1001
