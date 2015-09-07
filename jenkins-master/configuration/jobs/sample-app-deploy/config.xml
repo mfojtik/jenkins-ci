@@ -10,6 +10,10 @@
     <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.15">
       <optOut>true</optOut>
     </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
+    <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.11">
+      <taskName>Application Deploy</taskName>
+      <stageName>Deploy</stageName>
+    </se.diabol.jenkins.pipeline.PipelineProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>master</assignedNode>
@@ -27,13 +31,17 @@ OS_PROJECT_NAME=${OS_PROJECT_NAME:-&quot;ci&quot;}
 OS_BUILDCONFIG_NAME=${OS_BUILDCONFIG_NAME:-&quot;sample-app&quot;}
 OS_API_URL=${OS_API_URL:-&quot;https://openshift.default.svc.cluster.local&quot;}
 
+set +x # Hide secrets
 AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
 CERT_AUTH_PATH=&quot;/run/secrets/kubernetes.io/serviceaccount/ca.crt&quot;
 
 alias oc=&quot;/usr/local/bin/oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL&quot;
 
 # Start the deployment in OpenShift
+echo &quot;Scaling the frontend deployment ...&quot;
 oc scale --replicas=1 dc frontend
+
+echo &quot;Deploying new frontend ...&quot;
 oc deploy frontend --latest</command>
     </hudson.tasks.Shell>
   </builders>

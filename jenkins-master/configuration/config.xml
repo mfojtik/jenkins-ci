@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
   <disabledAdministrativeMonitors/>
-  <version>1.619</version>
+  <version>1.609</version>
   <numExecutors>1</numExecutors>
   <mode>EXCLUSIVE</mode>
   <useSecurity>true</useSecurity>
@@ -51,6 +51,57 @@
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
     </hudson.model.AllView>
+    <se.diabol.jenkins.pipeline.DeliveryPipelineView plugin="delivery-pipeline-plugin@0.8.11">
+      <owner class="hudson" reference="../../.."/>
+      <name>Sample Pipeline View</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <componentSpecs>
+        <se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
+          <name>Test</name>
+          <firstJob>sample-app-test</firstJob>
+        </se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
+        <se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
+          <name>Build</name>
+          <firstJob>sample-app-build</firstJob>
+        </se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
+        <se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
+          <name>Deploy</name>
+          <firstJob>sample-app-deploy</firstJob>
+        </se.diabol.jenkins.pipeline.DeliveryPipelineView_-ComponentSpec>
+      </componentSpecs>
+      <noOfPipelines>3</noOfPipelines>
+      <showAggregatedPipeline>false</showAggregatedPipeline>
+      <noOfColumns>1</noOfColumns>
+      <sorting>none</sorting>
+      <showAvatars>false</showAvatars>
+      <updateInterval>2</updateInterval>
+      <showChanges>false</showChanges>
+      <allowManualTriggers>false</allowManualTriggers>
+      <regexpFirstJobs/>
+    </se.diabol.jenkins.pipeline.DeliveryPipelineView>
+    <au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView plugin="build-pipeline-plugin@1.4.7">
+      <owner class="hudson" reference="../../.."/>
+      <name>Sample Build Pipeline</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
+        <firstJob>sample-app-test</firstJob>
+      </gridBuilder>
+      <noOfDisplayedBuilds>1</noOfDisplayedBuilds>
+      <buildViewTitle></buildViewTitle>
+      <consoleOutputLinkStyle>Lightbox</consoleOutputLinkStyle>
+      <cssUrl></cssUrl>
+      <triggerOnlyLatestJob>false</triggerOnlyLatestJob>
+      <alwaysAllowManualTrigger>false</alwaysAllowManualTrigger>
+      <showPipelineParameters>false</showPipelineParameters>
+      <showPipelineParametersInHeaders>false</showPipelineParametersInHeaders>
+      <startsWithParameters>false</startsWithParameters>
+      <refreshFrequency>3</refreshFrequency>
+      <showPipelineDefinitionHeader>false</showPipelineDefinitionHeader>
+    </au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView>
   </views>
   <primaryView>All</primaryView>
   <slaveAgentPort>-1</slaveAgentPort>

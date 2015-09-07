@@ -10,8 +10,27 @@
     <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.15">
       <optOut>false</optOut>
     </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>OS_PROJECT_NAME</name>
+          <description>The OpenShift project name.</description>
+          <defaultValue>ci</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>OS_BUILDCONFIG_NAME</name>
+          <description>The OpenShift Build Config name.</description>
+          <defaultValue>sample-app</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>OS_API_URL</name>
+          <description>The OpenShift API url.</description>
+          <defaultValue>https://openshift.default.svc.cluster.local</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.11">
-      <taskName>Image</taskName>
+      <taskName>Build Docker Image</taskName>
       <stageName>Build</stageName>
     </se.diabol.jenkins.pipeline.PipelineProperty>
     <hudson.plugins.promoted__builds.JobPropertyImpl plugin="promoted-builds@2.21">
@@ -32,19 +51,20 @@
     <hudson.tasks.Shell>
       <command># TODO: Move this to a OpenShift Jenkins Plugin
 
-OS_PROJECT_NAME=${OS_PROJECT_NAME:-&quot;ci&quot;}
-OS_BUILDCONFIG_NAME=${OS_BUILDCONFIG_NAME:-&quot;sample-app&quot;}
-OS_API_URL=${OS_API_URL:-&quot;https://openshift.default.svc.cluster.local&quot;}
-
+set +x # Hide the credentials in console.
 AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
 CERT_AUTH_PATH=&quot;/run/secrets/kubernetes.io/serviceaccount/ca.crt&quot;
 
 alias oc=&quot;/usr/local/bin/oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL&quot;
 
 # Start the build in OpenShift
-oc start-build sample-app --follow</command>
+oc start-build ${OS_BUILDCONFIG_NAME} --follow</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
-  <buildWrappers/>
+  <buildWrappers>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+      <colorMapName>css</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
 </project>

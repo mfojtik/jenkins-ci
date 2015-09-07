@@ -20,7 +20,7 @@
       <optOut>false</optOut>
     </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.11">
-      <taskName>Verification</taskName>
+      <taskName>Change Verification</taskName>
       <stageName>Build</stageName>
     </se.diabol.jenkins.pipeline.PipelineProperty>
     <hudson.plugins.promoted__builds.JobPropertyImpl plugin="promoted-builds@2.21">
