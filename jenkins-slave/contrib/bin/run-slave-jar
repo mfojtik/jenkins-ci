@@ -7,7 +7,7 @@
 #
 # This command will then connect to the slave pod and execute this script:
 
-JENKINS_ROOT=/opt/app-root/jenkins
+HOME=/opt/app-root/jenkins
 
 function generate_passwd_file() {
   export USER_ID=$1
@@ -20,5 +20,6 @@ function generate_passwd_file() {
 
 generate_passwd_file `id -u` `id -g`
 
-curl http://jenkins:8080/jnlpJars/slave.jar -o ${JENKINS_ROOT}/slave.jar
-cd ${JENKINS_ROOT} && exec java -jar /opt/app-root/jenkins/slave.jar
+curl http://jenkins:8080/jnlpJars/slave.jar -o ${HOME}/slave.jar
+
+cd ${HOME} && exec java -jar /opt/app-root/jenkins/slave.jar
