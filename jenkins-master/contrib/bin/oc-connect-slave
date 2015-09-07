@@ -15,10 +15,12 @@ OS_API_URL=${OS_API_URL:-"https://openshift.default.svc.cluster.local"}
 AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
 CERT_AUTH_PATH="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
-alias oc="oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL"
+oc_cmd="/usr/local/bin/oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL"
+
+alias oc="${oc_cmd}"
 
 if [ -z "${JENKINS_SLAVE}" ]; then
   JENKINS_SLAVE=`oc get pod -l name=${JENKINS_SLAVE_NAME:-"jenkins-slave"} -t "{{ (index .items 0).metadata.name }}"`
 fi
 
-oc exec -i ${JENKINS_SLAVE} -- /bin/bash -c /usr/local/bin/run-slave-jar
+exec ${oc_cmd} exec -i ${JENKINS_SLAVE} -- /bin/bash -c /usr/local/bin/run-slave-jar
