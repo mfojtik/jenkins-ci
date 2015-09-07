@@ -13,7 +13,7 @@ $ git clone https://github.com/mfojtik/jenkins-ci && cd jenkins-ci
 $ oc new-project ci
 $ oc policy add-role-to-user edit system:serviceaccount:ci:default
 $ oc create -f jenkins-master/openshift/jenkins-master-ephemeral.json
-$ oc create -f jenkins-slave/openshift/s2i-slave-template.json
+$ oc create -f jenkins-slave/contrib/openshift/s2i-slave-template.json
 $ oc create -f sample-app/sample-app-template.json
 ```
 
