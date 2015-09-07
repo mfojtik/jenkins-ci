@@ -47,21 +47,7 @@ Ruby application. After you instantiate the template, you will have no pods
 running, which is expected. You have to first execute the build in Jenkins and
 then promote the build for it being deployed.
 
-## Step 3: Adding Jenkins slave
-
-To add Jenkins slave, you have to navigate to the Jenkins management interface:
-
-https://jenkins.ci.router.default.svc.cluster.local/computer/new
-
-> NOTE: If you see 503 error, just manually fix the URL to be 'https://'. This
-> is a known issue and will be fixed soon.
-
-Now choose a *Dumb Slave* assign a name to the new node (eg. `ruby-22-builder`).
-Next, you have to configure the new node:
-
-![Add Jenkins Slave](https://raw.githubusercontent.com/mfojtik/jenkins-ci/master/docs/jenkins-slave.png)
-
-## Step 4: Final Workflow
+## Step 3: Final Workflow
 
 This example setups following workflow:
 
