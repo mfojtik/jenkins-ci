@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<slave>
+  <name>ruby-22-centos7</name>
+  <description></description>
+  <remoteFS>/opt/app-root/jenkins</remoteFS>
+  <numExecutors>1</numExecutors>
+  <mode>NORMAL</mode>
+  <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+  <launcher class="hudson.slaves.CommandLauncher">
+    <agentCommand>/usr/local/bin/oc-connect-slave</agentCommand>
+  </launcher>
+  <label>builder</label>
+  <nodeProperties/>
+  <userId>admin</userId>
+</slave>

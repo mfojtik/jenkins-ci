@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Starts a build in OpenShift</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty plugin="build-failure-analyzer@1.13.0">
+      <doNotScan>false</doNotScan>
+    </com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.15">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
+    <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.11">
+      <taskName>Image</taskName>
+      <stageName>Build</stageName>
+    </se.diabol.jenkins.pipeline.PipelineProperty>
+    <hudson.plugins.promoted__builds.JobPropertyImpl plugin="promoted-builds@2.21">
+      <activeProcessNames>
+        <string>Deploy</string>
+      </activeProcessNames>
+    </hudson.plugins.promoted__builds.JobPropertyImpl>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command># TODO: Move this to a OpenShift Jenkins Plugin
+
+OS_PROJECT_NAME=${OS_PROJECT_NAME:-&quot;ci&quot;}
+OS_BUILDCONFIG_NAME=${OS_BUILDCONFIG_NAME:-&quot;sample-app&quot;}
+OS_API_URL=${OS_API_URL:-&quot;https://openshift.default.svc.cluster.local&quot;}
+
+AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
+CERT_AUTH_PATH=&quot;/run/secrets/kubernetes.io/serviceaccount/ca.crt&quot;
+
+alias oc=&quot;/usr/local/bin/oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL&quot;
+
+# Start the build in OpenShift
+oc start-build sample-app --follow</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
