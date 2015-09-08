@@ -72,6 +72,17 @@
       }
     },
     {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "ruby-22-centos7",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "dockerImageRepository": "openshift/ruby-22-centos7"
+      }
+    },
+    {
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
@@ -93,7 +104,7 @@
           "sourceStrategy": {
             "from": {
               "kind": "ImageStreamTag",
-              "name": "ruby:latest"
+              "name": "ruby-22-centos7:latest"
             }
           }
         },
