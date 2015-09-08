@@ -13,7 +13,7 @@
     {
       "name": "IMAGE_NAME",
       "description": "The name of the S2I image stream to use as a Jenkins slave",
-      "value": "ruby-22-centos7",
+      "value": "ruby-20-centos7",
       "required": true
     }
   ],
