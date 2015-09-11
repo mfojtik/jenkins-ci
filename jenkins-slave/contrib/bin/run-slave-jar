@@ -29,7 +29,7 @@ retries=0
 until [ $retries -ge 300 ]; do
   retries=$[$retries+1]
   echo "Attempt #${retries} to download ${SLAVE_URL} ..."
-  curl ${SLAVE_URL} -o ${HOME}/slave.jar
+  curl -Ss ${SLAVE_URL} -o ${HOME}/slave.jar
   # Jenkins will send some junk when it is not fully up, check the MIME type of
   # the slave.jar to make sure it is JAR.
   [[ "$(file -b --mime-type ${HOME}/slave.jar)" == "application/zip" ]] && break

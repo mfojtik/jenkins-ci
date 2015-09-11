@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 #
 # This script connects Jenkins to a Jenkins slave that is running as a Pod.
 # You can provide the Pod name as first parameter. When omitted, it will attempt
@@ -19,8 +19,36 @@ oc_cmd="/usr/local/bin/oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-
 
 alias oc="${oc_cmd}"
 
+function get_slave_name() {
+  oc get pod -l name=${JENKINS_SLAVE_NAME:-"jenkins-slave"} \
+    -t "{{ (index .items 0).metadata.name }}"
+}
+
+# In case the JENKINS_SLAVE is not provided as the first parameter to this
+# script, get the name by querying the OpenShift for the name of the Pod that
+# has a label "jenkins-slave". First pod is used.
 if [ -z "${JENKINS_SLAVE}" ]; then
-  JENKINS_SLAVE=`oc get pod -l name=${JENKINS_SLAVE_NAME:-"jenkins-slave"} -t "{{ (index .items 0).metadata.name }}"`
+  retries=0
+  until [ $retries -ge 300 ]; do
+    retries=$[$retries+1]
+    JENKINS_SLAVE=$(get_slave_name)
+    if [[ -z "${JENKINS_SLAVE}" ]]; then
+      echo "The Jenkins slave pod is not available, retrying ..." && sleep 1 && continue
+    fi
+    break
+  done
 fi
+
+# Validate the pod if it is able to run the Jenkins slave. If not, then give it
+# few minutes to settle.
+retries=0
+until [ $retries -ge 300 ]; do
+  ready=$(oc exec ${JENKINS_SLAVE} -- /bin/bash -c "echo ok")
+  if [[ "${ready}" != "ok" ]]; then
+    echo "The Jenkins slave pod is not ready, retrying ..." && sleep 1
+    continue
+  fi
+  break
+done
 
 exec ${oc_cmd} exec -i ${JENKINS_SLAVE} -- /bin/bash -c /usr/local/bin/run-slave-jar

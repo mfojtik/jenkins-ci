@@ -1,4 +1,5 @@
 #!/bin/sh -e
 
 # Keep the image running
-sleep infinity
+echo "Waiting for Jenkins master to connect ..."
+exec sleep infinity

@@ -13,5 +13,4 @@ COPY configuration/ /opt/openshift/configuration/
 RUN /usr/local/bin/plugins.sh /opt/openshift/configuration/plugins.txt && \
     chmod go+rw -R /opt/openshift
 
-RUN ls -lah /opt/openshift/configuration
 USER 1001

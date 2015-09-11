@@ -1,8 +1,5 @@
 # The FROM will be replaced when building in OpenShift
-#FROM openshift/base-centos7
-FROM openshift/ruby-20-centos7
-ENV LANG=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8
+FROM openshift/base-centos7
 
 # Install Java to run slave.jar
 USER root
