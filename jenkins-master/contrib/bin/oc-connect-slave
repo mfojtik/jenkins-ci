@@ -21,7 +21,7 @@ alias oc="${oc_cmd}"
 
 function get_slave_name() {
   oc get pod -l name=${JENKINS_SLAVE_NAME:-"jenkins-slave"} \
-    -t "{{ (index .items 0).metadata.name }}"
+    -t "{{range .items}}{{.metadata.name}};{{end}}" | cut -d ';' -f 1
 }
 
 # In case the JENKINS_SLAVE is not provided as the first parameter to this
