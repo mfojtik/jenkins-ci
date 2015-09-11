@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash
 #
 # This script is meant to be run by the Jenkins when addint a new slave:
 #
@@ -18,8 +18,23 @@ function generate_passwd_file() {
   export NSS_WRAPPER_GROUP=/etc/group
 }
 
+# Assign 'jenkins' as a user name to the random UID openshift runs this container
 generate_passwd_file `id -u` `id -g`
 
-curl http://jenkins:8080/jnlpJars/slave.jar -o ${HOME}/slave.jar
+# TODO: Do not assume the URL is this, make this a parameter.
+SLAVE_URL="http://jenkins:8080/jnlpJars/slave.jar"
 
+# Wait for Jenkins master to be up. This will wait up to 5 minutes and then give up.
+retries=0
+until [ $retries -ge 300 ]; do
+  retries=$[$retries+1]
+  echo "Attempt #${retries} to download ${SLAVE_URL} ..."
+  curl ${SLAVE_URL} -o ${HOME}/slave.jar
+  # Jenkins will send some junk when it is not fully up, check the MIME type of
+  # the slave.jar to make sure it is JAR.
+  [[ "$(file -b --mime-type ${HOME}/slave.jar)" == "application/zip" ]] && break
+  echo "Failed to download slave.jar from Jenkins master, retrying ..." && sleep 1
+done
+
+echo "Starting Jenkins slave agent in ${HOME} directory ..."
 cd ${HOME} && exec java -jar /opt/app-root/jenkins/slave.jar -jar-cache ${HOME}
