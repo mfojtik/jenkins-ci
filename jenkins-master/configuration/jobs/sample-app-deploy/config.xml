@@ -24,26 +24,22 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.tasks.Shell>
-      <command># TODO: Move this to a OpenShift Jenkins Plugin
 
-OS_PROJECT_NAME=${OS_PROJECT_NAME:-&quot;ci&quot;}
-OS_BUILDCONFIG_NAME=${OS_BUILDCONFIG_NAME:-&quot;sample-app&quot;}
-OS_API_URL=${OS_API_URL:-&quot;https://openshift.default.svc.cluster.local&quot;}
+    <com.openshift.openshiftjenkinsbuildutils.OpenShiftScaler>
+      <apiURL>https://openshift.default.svc.cluster.local</apiURL>
+      <depCfg>frontend</depCfg>
+      <nameSpace>ci</nameSpace>
+      <replicaCount>1</replicaCount>
+      <authToken></authToken>
+    </com.openshift.openshiftjenkinsbuildutils.OpenShiftScaler>
 
-set +x # Hide secrets
-AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
-CERT_AUTH_PATH=&quot;/run/secrets/kubernetes.io/serviceaccount/ca.crt&quot;
-
-alias oc=&quot;/usr/local/bin/oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL&quot;
-
-# Start the deployment in OpenShift
-echo &quot;Scaling the frontend deployment ...&quot;
-oc scale --replicas=1 dc frontend
-
-echo &quot;Deploying new frontend ...&quot;
-oc deploy frontend --latest</command>
-    </hudson.tasks.Shell>
+    <com.openshift.openshiftjenkinsbuildutils.OpenShiftDeployer>
+      <apiURL>https://openshift.default.svc.cluster.local</apiURL>
+      <depCfg>frontend</depCfg>
+      <nameSpace>ci</nameSpace>
+      <authToken></authToken>
+    </com.openshift.openshiftjenkinsbuildutils.OpenShiftDeployer>
+    
   </builders>
   <publishers/>
   <buildWrappers/>

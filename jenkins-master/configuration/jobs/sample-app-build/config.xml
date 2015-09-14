@@ -10,25 +10,6 @@
     <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.15">
       <optOut>false</optOut>
     </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
-    <hudson.model.ParametersDefinitionProperty>
-      <parameterDefinitions>
-        <hudson.model.StringParameterDefinition>
-          <name>OS_PROJECT_NAME</name>
-          <description>The OpenShift project name.</description>
-          <defaultValue>ci</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>OS_BUILDCONFIG_NAME</name>
-          <description>The OpenShift Build Config name.</description>
-          <defaultValue>sample-app</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>OS_API_URL</name>
-          <description>The OpenShift API url.</description>
-          <defaultValue>https://openshift.default.svc.cluster.local</defaultValue>
-        </hudson.model.StringParameterDefinition>
-      </parameterDefinitions>
-    </hudson.model.ParametersDefinitionProperty>
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.8.11">
       <taskName>Build Docker Image</taskName>
       <stageName>Build</stageName>
@@ -48,18 +29,14 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.tasks.Shell>
-      <command># TODO: Move this to a OpenShift Jenkins Plugin
 
-set +x # Hide the credentials in console.
-AUTH_TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
-CERT_AUTH_PATH=&quot;/run/secrets/kubernetes.io/serviceaccount/ca.crt&quot;
+    <com.openshift.openshiftjenkinsbuildutils.OpenShiftBuilder>
+      <apiURL>https://openshift.default.svc.cluster.local</apiURL>
+      <bldCfg>sample-app</bldCfg>
+      <nameSpace>ci</nameSpace>
+      <authToken></authToken>
+    </com.openshift.openshiftjenkinsbuildutils.OpenShiftBuilder>
 
-alias oc=&quot;/usr/local/bin/oc -n $OS_PROJECT_NAME --token=$AUTH_TOKEN --certificate-authority=$CERT_AUTH_PATH --server=$OS_API_URL&quot;
-
-# Start the build in OpenShift
-oc start-build ${OS_BUILDCONFIG_NAME} --follow</command>
-    </hudson.tasks.Shell>
   </builders>
   <publishers/>
   <buildWrappers>
