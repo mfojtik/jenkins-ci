@@ -46,6 +46,13 @@
             "port": 8080,
             "targetPort": 8080,
             "nodePort": 0
+          },
+          {
+            "name": "jnlp",
+            "protocol": "TCP",
+            "port": 49187,
+            "targetPort": 49187,
+            "nodePort": 0
           }
         ],
         "selector": {
