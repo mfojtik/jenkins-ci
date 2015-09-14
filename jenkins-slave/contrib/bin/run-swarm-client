@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash
 #
 # This script launch a Jenkins swarm[1] plugin client which automatically
 # registers this container as a Jenkins slave.
@@ -46,5 +46,5 @@ exec java -Duser.home=${JENKINS_DIR} \
   -name ${IMAGE_NAME} \
   -fsroot ${JENKINS_DIR} \
   -username ${JENKINS_USERNAME:-admin} \
-  -passwordEnvVariable JENKINS_PASSWORD \
+  -password JENKINS_PASSWORD \
   -disableSslVerification
