@@ -4,20 +4,25 @@ This repository contains an example of Jenkins setup, that is configured to
 provide a CI/pipeline workflow for the
 [sample-app](https://github.com/mfojtik/sample-app) repository.
 
-## Step 1: Create the CI project and templates:
+## Create the CI project and the templates:
 
 To start, you have to manually enter following commands in OpenShift:
 
 ```console
-$ git clone https://github.com/mfojtik/jenkins-ci && cd jenkins-ci
+$ git clone https://github.com/mfojtik/jenkins-ci
+$ cd jenkins-ci
+
+# Create project and allow Jenkins to talk to OpenShift API
 $ oc new-project ci
 $ oc policy add-role-to-user edit system:serviceaccount:ci:default
-$ oc create -f jenkins-master/openshift/jenkins-master-ephemeral.json
-$ oc create -f jenkins-slave/contrib/openshift/s2i-slave-template.json
-$ oc create -f sample-app/sample-app-template.json
+
+# Now create the templates
+$ oc create -f openshift/jenkins-master-ephemeral.json
+$ oc create -f openshift/s2i-slave-template.json
+$ oc create -f openshift/sample-app-template.json
 ```
 
-## Step 2: Instantiating templates
+## Instantiating templates from OpenShift web console
 
 First, create the Jenkins master. Since we have to install couple extra plugins
 to the Jenkins master, we have to rebuild the official OpenShift [Jenkins]()
@@ -36,31 +41,34 @@ running in OpenShift web console. It can take few minutes for the build to
 complete.
 
 Next click on the *s2i-jenkins-slave*. You can provide the name of the S2I image
-stream you want to base the Jenkins slave image on. After creating this
-template, we build a Jenkins slave image that will be derivated from the S2I
-image and include all tools Jenkins needs to talk to the Jenkins slave (java,
-slave.jar, etc...)
+stream you want to base the Jenkins slave image on, the Jenkins master URL
+(*default: http://jenkins:8080/jenkins*) and the username and password to allow
+the slave to connect to Jenkins.
+After creating this template, we build a Jenkins slave image that will be
+derivated from the S2I image and include all tools Jenkins needs to talk to the
+Jenkins slave (java, slave.jar, etc...).
 
-The last step is to instantiate the `sample-app` template. This template
-defines resources to run the [sample-app](https://github.com/mfojtik/sample-app)
-Ruby application. After you instantiate the template, you will have no pods
-running, which is expected. You have to first execute the build in Jenkins and
-then promote the build for it being deployed.
+The last step is to instantiate the `sample-app` template. The [sample
+app](https://github.com/mfojtik/sample-app) here is a simple Ruby application
+that runs Sinatra and have one unit test defined to exercise the CI flow.
 
-## Step 3: Final Workflow
+## Worflow
 
-This example setups following workflow:
+Once the Jenkins master is up and the slave is discovered via the [swarm](https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin) plugin, following will happen in Jenkins:
 
-1. Kick the build of the `sample-app-test` job. This job is kicked automatically
-   everytime there is a new commit in [sample-app](https://github.com/mfojtik/sample-app) repo.
-   This job then clone the repository, install all Ruby development dependencies
-   and perform `rake test` to verify the change.
-2. After the change is verified, the `sample-app-build` job is triggered
-   automatically. This job will start a build of a new Docker image for the
-   `sample-app` in OpenShift. You can watch the build in the OpenShift web
-   console, or you can watch the build logs in the Jenkins console.
-3. After the new Docker image is build with changes, you have to **manually**
-   promote the Docker image to be deployed in OpenShift. To do that, navigate to
-   the `sample-app-build` job and click on `Promotion Status`. Then click on
-   `Approve`, which will kick the `sample-app-deploy` job. This job will call
-   `oc deploy` command that will cause the `sample-app` to be redeployed.
+1. The `sample-app-test` job is started. This job will fetch the sources,
+   install all required rubygems using bundler and then execute the unit tests.
+
+2. If the unit tests passed, the `sample-app-build` is started automatically via
+   the Jenkins [promoted builds](https://wiki.jenkins-ci.org/display/JENKINS/Promoted+Builds+Plugin)
+   plugin. This job will leverage the OpenShift Jenkins plugin that will start a
+   build of the Docker image which will contain 'sample-app'.
+
+3. When the Docker image is build successfully, you have to **manually promote**
+   the build to be deployed to OpenShift. Since re-deploying the application
+   replaces the existing running application, human intervention is needed
+   confirm this step.
+
+4. Once the build is promoted, the `sample-app-deploy` job is started. This job
+   will scale down the existing application deployment and redeploy it using the
+   new Docker image.

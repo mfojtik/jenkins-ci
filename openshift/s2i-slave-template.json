@@ -9,6 +9,9 @@
       "iconClass": "icon-jenkins"
     }
   },
+  "labels": {
+    "template": "s2i-slave-template"
+  },
   "parameters": [
     {
       "name": "IMAGE_NAME",
