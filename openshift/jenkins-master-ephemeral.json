@@ -117,8 +117,7 @@
           "type": "Git",
           "contextDir": "jenkins-master",
           "git": {
-            "uri": "https://github.com/mfojtik/jenkins-ci.git",
-	    "ref": "oc-based"
+            "uri": "https://github.com/mfojtik/jenkins-ci.git"
           }
         },
         "strategy": {
