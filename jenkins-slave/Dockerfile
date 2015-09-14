@@ -12,7 +12,7 @@ RUN yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus epel-release 
 
 # Copy the entrypoint
 COPY contrib/bin/* /usr/local/bin/
-COPY contrib/openshift/passwd.template /opt/app-root/jenkins/
+COPY contrib/openshift/* /opt/app-root/jenkins/
 USER 1001
 
-CMD ["/usr/local/bin/run-jenkins-slave"]
+CMD ["/usr/local/bin/run-swarm-client"]

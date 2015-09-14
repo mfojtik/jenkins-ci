@@ -1,0 +1,22 @@
+#!/bin/sh -e
+#
+# This script launch a Jenkins swarm[1] plugin client which automatically
+# registers this container as a Jenkins slave.
+#
+JENKINS_DIR="/opt/app-root/jenkins"
+
+# TODO: This should be constructed from an environment variables
+JENKINS_MASTER_URL=${JENKINS_MASTER_URL:-"http://jenkins:8080/jenkins/"}
+
+# The swarm client has to match with the plugin installed in Jenkins master.
+# Source:
+# http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/2.0/
+SWARM_CLIENT_JAR="${JENKINS_DIR}/swarm-client-2.0-jar-with-dependencies.jar"
+
+exec java -jar ${SWARM_CLIENT_JAR} \
+  -master ${JENKINS_MASTER_URL} \
+  -labels ${JENKINS_SLAVE_LABELS:-builder} \
+  -mode exclusive \
+  -name ${IMAGE_NAME} \
+  -fsroot ${JENKINS_DIR} \
+  -disableSslVerification
