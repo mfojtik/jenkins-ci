@@ -19,12 +19,12 @@
     {
       "name": "JENKINS_SLAVE_LABELS",
       "description": "Define what labels this Jenkins slave will get",
-      "value": "builder",
+      "value": "builder"
     },
     {
       "name": "JENKINS_MASTER_URL",
       "description": "The Jenkins Master URL",
-      "value": "http://jenkins:8080/jenkins",
+      "value": "http://jenkins:8080/jenkins"
     }
   ],
   "objects": [
