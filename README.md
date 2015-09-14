@@ -28,7 +28,7 @@ image to include these plugins. The master also needs a script that will allow
 connection to the Jenkins slaves (`oc-connect-slave`).
 
 Navigate to the OpenShift UI and choose the `ci` project we created in previous
-stem. Now click on *Add to Project* button and then click on *Show All
+step. Now click on *Add to Project* button and then click on *Show All
 Template*. You should see *jenkins-master* template and *s2i-jenkins-slave*.
 
 First click on the *jenkins-master* and create the template. You can change the
