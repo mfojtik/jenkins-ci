@@ -17,9 +17,7 @@ $ oc new-project ci
 $ oc policy add-role-to-user edit system:serviceaccount:ci:default
 
 # Now create the templates
-$ oc create -f openshift/jenkins-master-ephemeral.json
-$ oc create -f openshift/s2i-slave-template.json
-$ oc create -f openshift/sample-app-template.json
+$ oc create -f openshift
 ```
 
 ## Instantiating templates from OpenShift web console
