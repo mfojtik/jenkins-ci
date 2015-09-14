@@ -50,7 +50,7 @@ The last step is to instantiate the `sample-app` template. The [sample
 app](https://github.com/mfojtik/sample-app) here is a simple Ruby application
 that runs Sinatra and have one unit test defined to exercise the CI flow.
 
-## Worflow
+## Workflow
 
 Once the Jenkins master is up and the slave is discovered via the [swarm](https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin) plugin, following will happen in Jenkins:
 
