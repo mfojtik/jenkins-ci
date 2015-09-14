@@ -39,5 +39,5 @@ exec java -Duser.home=${JENKINS_DIR} \
   -name ${IMAGE_NAME} \
   -fsroot ${JENKINS_DIR} \
   -username ${JENKINS_USERNAME:-admin} \
-  -password JENKINS_PASSWORD \
+  -passwordEnvVariable JENKINS_PASSWORD \
   -disableSslVerification
