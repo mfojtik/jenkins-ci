@@ -6,7 +6,7 @@
 JENKINS_DIR="/opt/app-root/jenkins"
 
 # TODO: This should be constructed from an environment variables
-JENKINS_MASTER_URL=${JENKINS_MASTER_URL:-"http://jenkins:8080/jenkins/"}
+JENKINS_MASTER_URL=${JENKINS_MASTER_URL:-http://jenkins:8080}
 
 # The swarm client has to match with the plugin installed in Jenkins master.
 # Source:
