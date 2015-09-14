@@ -19,4 +19,6 @@ exec java -jar ${SWARM_CLIENT_JAR} \
   -mode exclusive \
   -name ${IMAGE_NAME} \
   -fsroot ${JENKINS_DIR} \
+  -username ${JENKINS_USERNAME:-admin} \
+  -passwordEnvVariable JENKINS_PASSWORD \
   -disableSslVerification
