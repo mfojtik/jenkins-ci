@@ -1,8 +1,6 @@
 FROM openshift/jenkins-1-centos7
 
 USER root
-COPY contrib/bin/* /usr/local/bin/
-
 RUN rm -rf /opt/openshift/configuration/jobs && \
     rm -rf /opt/openshift/configuration/config.xml
 
