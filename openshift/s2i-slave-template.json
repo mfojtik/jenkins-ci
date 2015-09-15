@@ -2,15 +2,15 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "s2i-jenkins-slave",
+    "name": "s2i-to-jenkins-slave",
     "creationTimestamp": null,
     "annotations": {
-      "description": "Provides Jenkins slave based on S2I Docker image",
+      "description": "Provides the conversion of S2I image to a Jenkins slave",
       "iconClass": "icon-jenkins"
     }
   },
   "labels": {
-    "template": "s2i-slave-template"
+    "template": "s2i-jenkins-slave"
   },
   "parameters": [
     {
@@ -46,7 +46,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "jenkins-slave"
+        "name": "${IMAGE_NAME}-slave"
       },
       "spec": {
         "ports": [
@@ -66,7 +66,7 @@
           }
         ],
         "selector": {
-          "name": "jenkins-slave"
+          "name": "${IMAGE_NAME}-slave"
         },
         "portalIP": "",
         "type": "ClusterIP",
@@ -95,12 +95,12 @@
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "jenkins-slave-${IMAGE_NAME}",
+        "name": "${IMAGE_NAME}-slave",
         "annotations": {
           "description": "Modifies the ${IMAGE_NAME} to run as Jenkins slave"
         },
         "labels": {
-          "name": "${IMAGE_NAME}-jenkins-slave"
+          "name": "${IMAGE_NAME}-slave"
         }
       },
       "spec": {
@@ -142,7 +142,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${IMAGE_NAME}-jenkins-slave"
+        "name": "${IMAGE_NAME}-slave"
       },
       "spec": {
         "strategy": {
@@ -160,7 +160,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "slave"
+                "jenkins-slave"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -175,18 +175,18 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "jenkins-slave"
+          "name": "${IMAGE_NAME}-slave"
         },
         "template": {
           "metadata": {
             "labels": {
-              "name": "jenkins-slave"
+              "name": "${IMAGE_NAME}-slave"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "slave",
+                "name": "jenkins-slave",
                 "image": "${IMAGE_NAME}-jenkins-slave",
                 "command": [ "/usr/local/bin/run-swarm-client" ],
                 "ports": [

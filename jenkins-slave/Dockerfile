@@ -5,7 +5,7 @@ FROM openshift/base-centos7
 USER root
 RUN yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus epel-release && \
     rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 && \
-    yum install -y --setopt=tsflags=nodocs install java unifdef quilt nss_wrapper && \
+    yum install -y --setopt=tsflags=nodocs install java-1.8.0-openjdk-headless unifdef quilt nss_wrapper && \
     yum clean all && \
     mkdir /opt/app-root/jenkins && \
     chmod -R go+rwx /opt/app-root/jenkins
