@@ -1,7 +1,7 @@
 # The FROM will be replaced when building in OpenShift
 FROM openshift/base-centos7
 
-# Install Java to run slave.jar
+# Install headless Java 
 USER root
 RUN yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus epel-release && \
     rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 && \
@@ -11,8 +11,5 @@ RUN yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus epel-release 
     chmod -R go+rwx /opt/app-root/jenkins
 
 # Copy the entrypoint
-COPY contrib/bin/* /usr/local/bin/
 COPY contrib/openshift/* /opt/app-root/jenkins/
 USER 1001
-
-CMD ["/usr/local/bin/run-swarm-client"]
