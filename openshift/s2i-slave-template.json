@@ -188,6 +188,7 @@
               {
                 "name": "jenkins-slave",
                 "image": "${IMAGE_NAME}-jenkins-slave",
+                "command": [ "/opt/app-root/jenkins/run-swarm-client" ],
                 "ports": [
                   {
                     "containerPort": 49187,
