@@ -33,11 +33,11 @@ SWARM_CLIENT_JAR="${JENKINS_DIR}/swarm-client-2.0-jar-with-dependencies.jar"
 
 exec java -Duser.home=${JENKINS_DIR} \
   -jar ${SWARM_CLIENT_JAR} \
-  -master ${JENKINS_MASTER_URL} \
-  -labels ${JENKINS_SLAVE_LABELS:-builder} ${IMAGE_NAME} \
+  -master "${JENKINS_MASTER_URL}" \
+  -labels "${JENKINS_SLAVE_LABELS:-builder} ${IMAGE_NAME}" \
   -mode exclusive \
-  -name ${IMAGE_NAME} \
-  -fsroot ${JENKINS_DIR} \
+  -name "${IMAGE_NAME}" \
+  -fsroot "${JENKINS_DIR}" \
   -username ${JENKINS_USERNAME:-admin} \
   -passwordEnvVariable JENKINS_PASSWORD \
   -executors 1 \
