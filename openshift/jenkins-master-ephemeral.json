@@ -117,7 +117,8 @@
           "type": "Git",
           "contextDir": "jenkins-master",
           "git": {
-            "uri": "https://github.com/mfojtik/jenkins-ci.git"
+            "uri": "https://github.com/mfojtik/jenkins-ci.git",
+            "ref": "keystore"
           }
         },
         "strategy": {
