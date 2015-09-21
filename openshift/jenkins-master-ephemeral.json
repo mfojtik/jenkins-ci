@@ -37,7 +37,7 @@
     {
       "name": "JENKINS_SLAVE_COMMAND",
       "description": "The command to run on Jenkins Slave",
-      "value": "/usr/local/bin/run-swarm-client"
+      "value": "/opt/app-root/jenkins/run-swarm-client"
     },
     {
       "name": "JENKINS_SLAVE_ROOT",

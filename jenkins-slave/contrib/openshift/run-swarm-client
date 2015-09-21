@@ -35,13 +35,14 @@ SWARM_CLIENT_JAR="${JENKINS_DIR}/swarm-client-2.0-jar-with-dependencies.jar"
 # parameter
 # Remove last two arguments which are ID's kubernetes-plugin use, but we don't
 # want.
+slave_name="${@: -1}"
 set -- "${@:1:$(($#-2))}"
 set -x
 exec java -Duser.home=${JENKINS_DIR} \
   -jar ${SWARM_CLIENT_JAR} \
   -master "${JENKINS_MASTER_URL}" \
   -mode exclusive \
-  -name "slave-$(hostname)" \
+  -name ${slave_name} \
   -fsroot "${JENKINS_DIR}" \
   -username ${JENKINS_USERNAME:-admin} \
   -executors 1 \
