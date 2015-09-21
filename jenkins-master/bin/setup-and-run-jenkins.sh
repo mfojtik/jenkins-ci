@@ -1,15 +1,15 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # This script will create a private keystore for Jenkins and add the Kubernetes
 # CA certificate to it. This allows Jenkins to use the certificate when
 # connecting to Kubernetes API.
 
-OS_ROOT="/opt/openshift"
+CONFIG_PATH="/opt/openshift/configuration/config.xml"
 KUBE_CA="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 STORE_PATH="/var/lib/jenkins/keystore"
 
 if [ -f "${KUBE_CA}" ]; then
-  echo "Adding ${KUBE_CA} to the Jenkins keystore ..."
+  echo "Creating Java keystore and adding ${KUBE_CA} to it ..."
   keytool -genkeypair -dname "cn=Kubernetes, ou=OpenShift, o=RedHat, c=US" \
       -alias secrets -keypass changeme -keystore ${STORE_PATH} \
       -storepass changeme
@@ -21,10 +21,11 @@ fi
 
 set -e
 
-export JENKINS_SLAVE_LABEL JENKINS_SLAVE_IMAGE JENKINS_SLAVE_COMMAND \
-  JENKINS_PASSWORD JENKINS_SLAVE_LABEL KUBERNETES_SERVICE_HOST \
-  KUBERNETES_SERVICE_PORT
-envsubst < "${OS_ROOT}/configuration/config.xml.tpl" > "${OS_ROOT}/configuration/config.xml"
-rm -f ${OS_ROOT}/configuration/config.xml.tpl
+echo "Processing Jenkins Kubernetes configuration (${CONFIG_PATH}) ..."
+export JENKINS_SLAVE_LABEL JENKINS_SLAVE_IMAGE JENKINS_SLAVE_COMMAND JENKINS_PASSWORD \
+  JENKINS_SLAVE_LABEL KUBERNETES_SERVICE_HOST KUBERNETES_SERVICE_PORT
+# TODO: Add /run/secrets as a credential here automatically.
+# TODO: Add /run/secrets/../ca.crt as service certificate
+envsubst < "${CONFIG_PATH}.tpl" > "${CONFIG_PATH}" && rm -f "${CONFIG_PATH}.tpl"
 
-exec /usr/local/bin/run-jenkins
+exec /usr/local/bin/run-jenkins "$@"
