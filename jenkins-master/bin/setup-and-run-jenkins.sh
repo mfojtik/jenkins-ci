@@ -4,7 +4,7 @@
 # CA certificate to it. This allows Jenkins to use the certificate when
 # connecting to Kubernetes API.
 
-CONFIG_PATH="/opt/openshift/configuration/config.xml"
+CONFIG_PATH="/var/lib/jenkins/config.xml"
 KUBE_CA="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 STORE_PATH="/var/lib/jenkins/keystore"
 
