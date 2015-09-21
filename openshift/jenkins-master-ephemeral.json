@@ -213,15 +213,15 @@
                   {
                     "name": "JENKINS_SLAVE_LABEL",
                     "value": "${JENKINS_SLAVE_LABEL}"
-                  }
+                  },
                   {
                     "name": "JENKINS_SLAVE_ROOT",
                     "value": "${JENKINS_SLAVE_ROOT}"
-                  }
+                  },
                   {
                     "name": "JENKINS_SLAVE_IMAGE",
                     "value": "${JENKINS_SLAVE_IMAGE}"
-                  }
+                  },
                   {
                     "name": "JENKINS_SLAVE_COMMAND",
                     "value": "${JENKINS_SLAVE_COMMAND}"
