@@ -5,7 +5,7 @@
 # connecting to Kubernetes API.
 
 KUBE_CA="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-STORE_PATH="/var/lib/jenkins/secrets/keystore"
+STORE_PATH="/var/lib/jenkins/keystore"
 
 if [ -f "${KUBE_CA}" ]; then
   echo "Adding ${KUBE_CA} to the Jenkins keystore ..."
