@@ -26,7 +26,7 @@ export JENKINS_SLAVE_LABEL JENKINS_SLAVE_IMAGE JENKINS_SLAVE_COMMAND JENKINS_PAS
   JENKINS_SLAVE_LABEL KUBERNETES_SERVICE_HOST KUBERNETES_SERVICE_PORT
 
 export JENKINS_HOME=/var/lib/jenkins
-export ITEM_ROOTDIR=${JENKINS_HOME}
+export ITEM_ROOTDIR="\${ITEM_ROOTDIR}" # Preserve the variable Jenkins uses
 
 # TODO: Add /run/secrets as a credential here automatically.
 # TODO: Add /run/secrets/../ca.crt as service certificate
