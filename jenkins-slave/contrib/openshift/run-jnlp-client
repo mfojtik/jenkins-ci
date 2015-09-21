@@ -12,8 +12,9 @@ function generate_passwd_file() {
 # Assign 'jenkins' as a user name to the random UID openshift runs this container
 generate_passwd_file `id -u` `id -g`
 
-JENKINS_DIR="/opt/app-root/jenkins"
+export JENKINS_DIR="/opt/app-root/jenkins"
 export HOME=/opt/app-root/jenkins
+export JENKINS_HOME=${JENKINS_DIR}
 export _JAVA_OPTIONS=-Duser.home=${JENKINS_DIR}
 
 # if `docker run` has 2 or more arguments the user is passing jenkins launcher arguments
