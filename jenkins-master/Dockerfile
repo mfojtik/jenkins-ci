@@ -9,8 +9,11 @@ COPY configuration/ /opt/openshift/configuration/
 ADD bin/setup-keystore.sh /usr/local/bin/setup-keystore.sh
 
 # Install the Jenkins plugin listed in 'plugins.txt'
+# Remove the bundled credentials plugin as we install more recent version
+# via plugins.sh.
 RUN /usr/local/bin/plugins.sh /opt/openshift/configuration/plugins.txt && \
-    chmod go+rw -R /opt/openshift
+    chmod go+rw -R /opt/openshift && \
+    zip -d /usr/share/jenkins/jenkins.war WEB-INF/plugins/credentials.hpi
 
 USER 1001
 CMD ["/usr/local/bin/setup-keystore.sh"]
