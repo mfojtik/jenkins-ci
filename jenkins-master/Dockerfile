@@ -13,7 +13,7 @@ ADD bin/setup-keystore.sh /usr/local/bin/setup-keystore.sh
 # via plugins.sh.
 RUN /usr/local/bin/plugins.sh /opt/openshift/configuration/plugins.txt && \
     chmod go+rw -R /opt/openshift && \
-    zip -d /usr/share/jenkins/jenkins.war WEB-INF/plugins/credentials.hpi
+    zip -d /usr/lib/jenkins/jenkins.war WEB-INF/plugins/credentials.hpi
 
 USER 1001
 CMD ["/usr/local/bin/setup-keystore.sh"]
