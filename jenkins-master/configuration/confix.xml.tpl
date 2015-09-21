@@ -40,7 +40,29 @@
   <jdks/>
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
-  <clouds/>
+  <clouds>
+    <org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin="kubernetes@0.4-SNAPSHOT">
+      <name>openshift</name>
+      <templates>
+        <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+          <name>${JENKINS_SLAVE_LABEL}</name>
+          <image>${JENKINS_SLAVE_IMAGE}</image>
+          <privileged>false</privileged>
+          <command>${JENKINS_SLAVE_COMMAND}</command>
+          <args>-password ${JENKINS_PASSWORD} </args>
+          <remoteFs>${JENKINS_SLAVE_ROOT}</remoteFs>
+          <instanceCap>1</instanceCap>
+          <label>${JENKINS_SLAVE_LABEL}</label>
+        </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+      </templates>
+      <serverUrl>https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}</serverUrl>
+      <skipTlsVerify>true</skipTlsVerify>
+      <namespace>ci</namespace>
+      <jenkinsUrl>http://jenkins:8080</jenkinsUrl>
+      <credentialsId></credentialsId>
+      <containerCap>10</containerCap>
+    </org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud>
+  </clouds>
   <quietPeriod>1</quietPeriod>
   <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
   <views>
@@ -89,6 +111,7 @@
       <properties class="hudson.model.View$PropertyList"/>
       <gridBuilder class="au.com.centrumsystems.hudson.plugin.buildpipeline.DownstreamProjectGridBuilder">
         <firstJob>sample-app-test</firstJob>
+        <firstJobLink>job/sample-app-test/</firstJobLink>
       </gridBuilder>
       <noOfDisplayedBuilds>1</noOfDisplayedBuilds>
       <buildViewTitle></buildViewTitle>

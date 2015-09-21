@@ -28,6 +28,26 @@
       "description": "Password for the Jenkins user",
       "generate": "expression",
       "value": "password"
+    },
+    {
+      "name": "JENKINS_SLAVE_IMAGE",
+      "description": "The default image to use for Jenkins Slave",
+      "value": ""
+    },
+    {
+      "name": "JENKINS_SLAVE_COMMAND",
+      "description": "The command to run on Jenkins Slave",
+      "value": "/usr/local/bin/run-swarm-client"
+    },
+    {
+      "name": "JENKINS_SLAVE_ROOT",
+      "description": "Jenkins slave root directory",
+      "value": "/opt/app-root/src"
+    },
+    {
+      "name": "JENKINS_SLAVE_LABEL",
+      "description": "Jenkins slave label",
+      "value": "ruby-20-centos7"
     }
   ],
   "objects": [
@@ -189,6 +209,22 @@
                   {
                     "name": "JENKINS_PASSWORD",
                     "value": "${JENKINS_PASSWORD}"
+                  },
+                  {
+                    "name": "JENKINS_SLAVE_LABEL",
+                    "value": "${JENKINS_SLAVE_LABEL}"
+                  }
+                  {
+                    "name": "JENKINS_SLAVE_ROOT",
+                    "value": "${JENKINS_SLAVE_ROOT}"
+                  }
+                  {
+                    "name": "JENKINS_SLAVE_IMAGE",
+                    "value": "${JENKINS_SLAVE_IMAGE}"
+                  }
+                  {
+                    "name": "JENKINS_SLAVE_COMMAND",
+                    "value": "${JENKINS_SLAVE_COMMAND}"
                   }
                 ],
                 "resources": {},

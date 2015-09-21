@@ -4,6 +4,7 @@
 # CA certificate to it. This allows Jenkins to use the certificate when
 # connecting to Kubernetes API.
 
+OS_ROOT="/opt/openshift"
 KUBE_CA="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 STORE_PATH="/var/lib/jenkins/keystore"
 
@@ -17,5 +18,10 @@ if [ -f "${KUBE_CA}" ]; then
 
   export JAVA_OPTS="-Djavax.net.ssl.keyStore=${STORE_PATH} -D-Djavax.net.ssl.keyStorePassword=changeme"
 fi
+
+export JENKINS_SLAVE_LABEL JENKINS_SLAVE_IMAGE JENKINS_SLAVE_COMMAND \
+  JENKINS_PASSWORD JENKINS_SLAVE_LABEL KUBERNETES_SERVICE_HOST \
+  KUBERNETES_SERVICE_PORT
+envsubst < "${OS_ROOT}/configuration/config.xml.tpl" > "${OS_ROOT}/configuration/config.xml"
 
 exec /usr/local/bin/run-jenkins
