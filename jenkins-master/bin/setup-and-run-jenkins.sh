@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 #
 # This script will create a private keystore for Jenkins and add the Kubernetes
 # CA certificate to it. This allows Jenkins to use the certificate when
@@ -18,6 +18,8 @@ if [ -f "${KUBE_CA}" ]; then
 
   export JAVA_OPTS="-Djavax.net.ssl.keyStore=${STORE_PATH} -D-Djavax.net.ssl.keyStorePassword=changeme"
 fi
+
+set -e
 
 export JENKINS_SLAVE_LABEL JENKINS_SLAVE_IMAGE JENKINS_SLAVE_COMMAND \
   JENKINS_PASSWORD JENKINS_SLAVE_LABEL KUBERNETES_SERVICE_HOST \
