@@ -33,6 +33,9 @@ SWARM_CLIENT_JAR="${JENKINS_DIR}/swarm-client-2.0-jar-with-dependencies.jar"
 
 # NOTE: You have to provide the Jenkins password by passing '-password <pass>'
 # parameter
+# Remove last two arguments which are ID's kubernetes-plugin use, but we don't
+# want.
+set -- "${@:1:$(($#-2))}"
 set -x
 exec java -Duser.home=${JENKINS_DIR} \
   -jar ${SWARM_CLIENT_JAR} \
