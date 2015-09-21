@@ -33,7 +33,7 @@ SWARM_CLIENT_JAR="${JENKINS_DIR}/swarm-client-2.0-jar-with-dependencies.jar"
 
 # NOTE: You have to provide the Jenkins password by passing '-password <pass>'
 # parameter
-
+set -x
 exec java -Duser.home=${JENKINS_DIR} \
   -jar ${SWARM_CLIENT_JAR} \
   -master "${JENKINS_MASTER_URL}" \
@@ -42,5 +42,4 @@ exec java -Duser.home=${JENKINS_DIR} \
   -fsroot "${JENKINS_DIR}" \
   -username ${JENKINS_USERNAME:-admin} \
   -executors 1 \
-  -disableSslVerification \
-  "$@"
+  -disableSslVerification "$@"
