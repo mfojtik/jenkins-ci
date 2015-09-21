@@ -24,9 +24,11 @@ set -e
 echo "Processing Jenkins Kubernetes configuration (${CONFIG_PATH}) ..."
 export JENKINS_SLAVE_LABEL JENKINS_SLAVE_IMAGE JENKINS_SLAVE_COMMAND JENKINS_PASSWORD \
   JENKINS_SLAVE_LABEL KUBERNETES_SERVICE_HOST KUBERNETES_SERVICE_PORT
+
+export JENKINS_HOME=/var/lib/jenkins
+export ITEM_ROOTDIR=${JENKINS_HOME}
+
 # TODO: Add /run/secrets as a credential here automatically.
 # TODO: Add /run/secrets/../ca.crt as service certificate
 envsubst < "${CONFIG_PATH}.tpl" > "${CONFIG_PATH}" && rm -f "${CONFIG_PATH}.tpl"
-
-export JENKINS_HOME=/var/lib/jenkins
 exec /usr/local/bin/run-jenkins "$@"

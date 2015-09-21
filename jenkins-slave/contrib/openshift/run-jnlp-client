@@ -44,7 +44,9 @@ if [[ $# -gt 1 ]]; then
   fi
 
   echo Running java $JAVA_OPTS -cp $JAR hudson.remoting.jnlp.Main -headless $PARAMS "$@"
-  exec java -Dhudson.model.Slave.workspaceRoot=${JENKINS_DIR} -Duser.home=${JENKINS_DIR} $JAVA_OPTS -cp $JAR hudson.remoting.jnlp.Main -headless $PARAMS "$@"
+  cd ${JENKINS_DIR} && exec java \
+    -Duser.home=${JENKINS_DIR} $JAVA_OPTS \
+    -cp $JAR hudson.remoting.jnlp.Main -headless $PARAMS "$@"
 fi
 
 # As argument is not jenkins, assume user want to run his own process, for sample a `bash` shell to explore this image
