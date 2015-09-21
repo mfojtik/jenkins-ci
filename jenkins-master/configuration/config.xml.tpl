@@ -49,7 +49,6 @@
           <image>${JENKINS_SLAVE_IMAGE}</image>
           <privileged>false</privileged>
           <command>${JENKINS_SLAVE_COMMAND}</command>
-          <args>-password ${JENKINS_PASSWORD} </args>
           <remoteFs>${JENKINS_SLAVE_ROOT}</remoteFs>
           <instanceCap>1</instanceCap>
           <label>${JENKINS_SLAVE_LABEL}</label>
