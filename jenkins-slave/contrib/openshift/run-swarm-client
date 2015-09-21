@@ -31,14 +31,16 @@ export _JAVA_OPTIONS=-Duser.home=${JENKINS_DIR}
 # http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/2.0/
 SWARM_CLIENT_JAR="${JENKINS_DIR}/swarm-client-2.0-jar-with-dependencies.jar"
 
+# NOTE: You have to provide the Jenkins password by passing '-password <pass>'
+# parameter
+
 exec java -Duser.home=${JENKINS_DIR} \
   -jar ${SWARM_CLIENT_JAR} \
   -master "${JENKINS_MASTER_URL}" \
-  -labels "${JENKINS_SLAVE_LABELS:-builder} ${IMAGE_NAME}" \
   -mode exclusive \
-  -name "${IMAGE_NAME}" \
+  -name "slave-$(hostname)" \
   -fsroot "${JENKINS_DIR}" \
   -username ${JENKINS_USERNAME:-admin} \
-  -passwordEnvVariable JENKINS_PASSWORD \
   -executors 1 \
-  -disableSslVerification
+  -disableSslVerification \
+  "$@"
