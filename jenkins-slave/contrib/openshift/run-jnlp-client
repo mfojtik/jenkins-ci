@@ -1,0 +1,46 @@
+#!/bin/bash
+
+function generate_passwd_file() {
+  export USER_ID=$1
+  export GROUP_ID=$2
+  envsubst < /opt/app-root/jenkins/passwd.template > /opt/app-root/jenkins/passwd
+  export LD_PRELOAD=libnss_wrapper.so
+  export NSS_WRAPPER_PASSWD=/opt/app-root/jenkins/passwd
+  export NSS_WRAPPER_GROUP=/etc/group
+}
+
+# Assign 'jenkins' as a user name to the random UID openshift runs this container
+generate_passwd_file `id -u` `id -g`
+
+# if `docker run` has 2 or more arguments the user is passing jenkins launcher arguments
+if [[ $# -gt 1 ]]; then
+
+  # jenkins slave
+  JAR="/opt/app-root/jenkins/remoting.jar"
+
+  PARAMS=""
+
+  # if -url is not provided try env vars
+  if [[ "$@" != *"-url "* ]]; then
+    if [ ! -z "$JENKINS_URL" ]; then
+      PARAMS="$PARAMS -url $JENKINS_URL"
+    elif [ ! -z "$JENKINS_SERVICE_HOST" ] && [ ! -z "$JENKINS_SERVICE_PORT" ]; then
+      PARAMS="$PARAMS -url http://$JENKINS_SERVICE_HOST:$JENKINS_SERVICE_PORT"
+    fi
+  fi
+
+  # if -tunnel is not provided try env vars
+  if [[ "$@" != *"-tunnel "* ]]; then
+    if [ ! -z "$JENKINS_TUNNEL" ]; then
+      PARAMS="$PARAMS -tunnel $JENKINS_TUNNEL"
+    elif [ ! -z "$JENKINS_SLAVE_SERVICE_HOST" ] && [ ! -z "$JENKINS_SLAVE_SERVICE_PORT" ]; then
+      PARAMS="$PARAMS -tunnel $JENKINS_SLAVE_SERVICE_HOST:$JENKINS_SLAVE_SERVICE_PORT"
+    fi
+  fi
+
+  echo Running java $JAVA_OPTS -cp $JAR hudson.remoting.jnlp.Main -headless $PARAMS "$@"
+  exec java $JAVA_OPTS -cp $JAR hudson.remoting.jnlp.Main -headless $PARAMS "$@"
+fi
+
+# As argument is not jenkins, assume user want to run his own process, for sample a `bash` shell to explore this image
+exec "$@"
