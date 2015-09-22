@@ -84,29 +84,6 @@ The last step is to instantiate the `sample-app` template. The [sample
 app](https://github.com/mfojtik/sample-app) here is a simple Ruby application
 that runs Sinatra and have one unit test defined to exercise the CI flow.
 
-## Kubernetes plugin configuration
-
-In order to allow Jenkins communicate with the OpenShift API, you have to
-provide authentication token to the Kubernetes plugin. To do that, login to
-Jenkins as administrator and navigate to *Manage Jenkins/Configure System*.
-
-Now scroll at the very bottom of the configuration page, to the
-*Cloud/Kubernetes* section. You will see that all fields are populated by the
-parameter values you specified before.
-
-To provide the *Credentials*, you have to first open an console and type this
-command:
-
-```console
-$ oc whoami -t
-P-tsUyn5Aawzt9rhUCkl0XRgf2rI-EOGKiEs6hejud8
-```
-
-Now go back to browser and click on *Add* button next to *Credentials* field.
-Select *OAuth Bearer token* option and copy&paste the token from above to
-*Token* field.  Now select the token from the drop-down menu and click the *Test
-Connection* button. You should see *Connection successful* message.
-
 ## Workflow
 
 You can see [watch the youtube](https://www.youtube.com/watch?v=HsdmSaz1zhs)
