@@ -109,6 +109,9 @@ Connection* button. You should see *Connection successful* message.
 
 ## Workflow
 
+You can see [watch the youtube](https://www.youtube.com/watch?v=HsdmSaz1zhs)
+video that shows the full workflow. What happens in the video is:
+
 1. When the `sample-app-test` job is started it fetches the [sample-app](https://github.com/mfojtik/sample-app) sources,
    install all required rubygems using bundler and then execute the sample unit tests.
    In the job definition, we restricted this job to run only on slaves that has
