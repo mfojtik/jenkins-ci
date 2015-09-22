@@ -12,10 +12,9 @@ credentials-binding:1.5
 delivery-pipeline-plugin:0.8.11
 docker-commons:1.2
 docker-plugin:0.14.0
-docker-workflow:1.2
 envinject:1.91.2
 extended-choice-parameter:0.37
-ghprb:1.19
+ghprb:1.27
 ssh-agent:1.3
 git:2.4.0
 git-client:1.18.0
@@ -31,7 +30,6 @@ matrix-auth:1.2
 matrix-project:1.4
 metrics:3.0.10
 naginator:1.15
-notification:1.9
 pam-auth:1.2
 parameterized-trigger:2.29
 plain-credentials:1.1
@@ -39,11 +37,9 @@ promoted-builds:2.21
 run-condition:1.0
 scm-api:0.2
 script-security:1.14
-support-core:2.21
 timestamper:1.6
 token-macro:1.10
 translation:1.12
-warnings:4.47
 workflow-aggregator:1.8
 workflow-api:1.8
 workflow-basic-steps:1.8
