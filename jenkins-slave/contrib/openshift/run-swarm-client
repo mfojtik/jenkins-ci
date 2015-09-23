@@ -2,48 +2,29 @@
 #
 # This script launch a Jenkins swarm[1] plugin client which automatically
 # registers this container as a Jenkins slave.
-#
-function generate_passwd_file() {
-  export USER_ID=$1
-  export GROUP_ID=$2
-  envsubst < /opt/app-root/jenkins/passwd.template > /opt/app-root/jenkins/passwd
-  export LD_PRELOAD=libnss_wrapper.so
-  export NSS_WRAPPER_PASSWD=/opt/app-root/jenkins/passwd
-  export NSS_WRAPPER_GROUP=/etc/group
-}
 
-# Assign 'jenkins' as a user name to the random UID openshift runs this container
-generate_passwd_file `id -u` `id -g`
-
-JENKINS_DIR="/opt/app-root/jenkins"
+source ${JENKINS_HOME}/common.sh
 
 # TODO: This should be constructed from an environment variables
 JENKINS_MASTER_URL=${JENKINS_MASTER_URL:-http://jenkins:8080}
 
-# FIXME: Without this you'll see permissions exceptions in the slave logs as the
-# current user home seems to be not writable. This is a workaround to fix this
-# errors:
-export HOME=${JENKINS_DIR}
-export _JAVA_OPTIONS=-Duser.home=${JENKINS_DIR}
-
 # The swarm client has to match with the plugin installed in Jenkins master.
 # Download latest version from:
 # http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/2.0/
-SWARM_CLIENT_JAR="${JENKINS_DIR}/swarm-client-2.0-jar-with-dependencies.jar"
+SWARM_CLIENT_JAR="${JENKINS_HOME}/swarm-client-2.0-jar-with-dependencies.jar"
 
 # NOTE: You have to provide the Jenkins password by passing '-password <pass>'
 # parameter
 # Remove last two arguments which are ID's kubernetes-plugin use, but we don't
 # want.
 slave_name="${@: -1}"
+
 set -- "${@:1:$(($#-2))}"
-set -x
-exec java -Duser.home=${JENKINS_DIR} \
-  -jar ${SWARM_CLIENT_JAR} \
+exec java -jar ${SWARM_CLIENT_JAR} \
   -master "${JENKINS_MASTER_URL}" \
   -mode exclusive \
   -name ${slave_name} \
-  -fsroot "${JENKINS_DIR}" \
+  -fsroot "${JENKINS_HOME}" \
   -username ${JENKINS_USERNAME:-admin} \
   -executors 1 \
   -disableSslVerification "$@"

@@ -15,8 +15,7 @@ RUN /usr/local/bin/plugins.sh /opt/openshift/configuration/plugins.txt && \
     touch /opt/openshift/plugins/credentials.jpi.pinned && \
     touch /opt/openshift/plugins/git.jpi.pinned && \
     touch /opt/openshift/plugins/git-client.jpi.pinned && \
-    chmod go+rw -R /opt/openshift && \
-    yum install -y gettext && yum clean all
+    chown -R 1001:0 /opt/openshift
 
 USER 1001
 
