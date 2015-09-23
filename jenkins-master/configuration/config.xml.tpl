@@ -43,15 +43,7 @@
     <org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin="kubernetes@0.4-SNAPSHOT">
       <name>openshift</name>
       <templates>
-        <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
-          <name>${JENKINS_SLAVE_LABEL}</name>
-          <image>${JENKINS_SLAVE_IMAGE}</image>
-          <privileged>false</privileged>
-          <command>${JENKINS_SLAVE_COMMAND}</command>
-          <remoteFs>${JENKINS_SLAVE_ROOT}</remoteFs>
-          <instanceCap>1</instanceCap>
-          <label>${JENKINS_SLAVE_LABEL}</label>
-        </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+        ${K8S_PLUGIN_POD_TEMPLATES}
       </templates>
       <serverUrl>https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}</serverUrl>
       <skipTlsVerify>true</skipTlsVerify>

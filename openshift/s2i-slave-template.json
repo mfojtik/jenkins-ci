@@ -35,7 +35,11 @@
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${IMAGE_NAME}-jenkins-slave"
+        "name": "${IMAGE_NAME}-jenkins-slave",
+        "labels": {
+          "role": "jenkins-slave",
+          "jenkins-label": "${IMAGE_NAME}"
+        }
       },
       "spec": {}
     },

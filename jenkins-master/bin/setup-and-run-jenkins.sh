@@ -1,20 +1,27 @@
 #!/bin/bash -e
 #
-# This script will create a private keystore for Jenkins and add the Kubernetes
-# CA certificate to it. This allows Jenkins to use the certificate when
-# connecting to Kubernetes API.
+# This script will process the Jenkins configuration and automatically
+# discover the Jenkins Slave Docker images from the OpenShift ImageStreams.
+#
+# In order to add ImageStream as a Jenkins Slave, the ImageStream must define
+# this label:
+#
+# * `role=jenkins-slave`  - To mark this imageStream as Jenkins Slave compatible
+#
+# Optionally, the ImageStream can set following annotations:
+#
+# * `slave-directory`     - Directory where the slave will execute jobs
+#                           (default: /opt/app-root/jenkins)
+# * `slave-label`         - The Jenkins Slave label that will be used in Job definitions.
+#                           (default: "<image stream name>")
 
-CONFIG_PATH="/var/lib/jenkins/config.xml"
-KUBE_CA="/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-STORE_PATH="/var/lib/jenkins/keystore"
+source /usr/local/bin/vars.sh
+
+for name in $(get_is_names); do
+  echo "Adding ${name} imagestream as Jenkins Slave ..."
+  K8S_PLUGIN_POD_TEMPLATES+=$(convert_is_to_slave ${name})
+done
 
 echo "Processing Jenkins Kubernetes configuration (${CONFIG_PATH}) ..."
-export JENKINS_SLAVE_LABEL JENKINS_SLAVE_IMAGE JENKINS_SLAVE_COMMAND JENKINS_PASSWORD \
-  JENKINS_SLAVE_LABEL KUBERNETES_SERVICE_HOST KUBERNETES_SERVICE_PORT
-export JENKINS_HOME=/var/lib/jenkins
-export ITEM_ROOTDIR="\${ITEM_ROOTDIR}" # Preserve the variable Jenkins uses
-
-# TODO: Add /run/secrets as a credential here automatically.
-# TODO: Add /run/secrets/../ca.crt as service certificate
 envsubst < "${CONFIG_PATH}.tpl" > "${CONFIG_PATH}" && rm -f "${CONFIG_PATH}.tpl"
 exec /usr/local/bin/run-jenkins "$@"
