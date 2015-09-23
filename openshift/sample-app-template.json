@@ -99,7 +99,8 @@
         "source": {
           "type": "Git",
           "git": {
-            "uri": "https://github.com/mfojtik/sample-app.git"
+            "uri": "https://github.com/mfojtik/jenkins-ci.git",
+            "contextDir": "sample-app"
           }
         },
         "strategy": {
