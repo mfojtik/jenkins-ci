@@ -35,7 +35,7 @@ You can use any Docker image as a Jenkins Slave as long as it runs either JNLP
 client or the swarm plugin client. For example, look at these two scripts:
 
 * [run-jnlp-client](https://github.com/mfojtik/jenkins-ci/blob/master/jenkins-slave/contrib/openshift/run-jnlp-client)
-* [run-swarm-client]https://github.com/mfojtik/jenkins-ci/blob/master/jenkins-slave/contrib/openshift/run-swarm-client()
+* [run-swarm-client](https://github.com/mfojtik/jenkins-ci/blob/master/jenkins-slave/contrib/openshift/run-swarm-client)
 
 Once you have this Docker Image, you have to manually configure Jenkins Master
 to use these images as a slaves. Follow the steps in the
