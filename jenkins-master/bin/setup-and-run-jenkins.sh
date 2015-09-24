@@ -15,12 +15,15 @@
 # * `slave-label`         - The Jenkins Slave label that will be used in Job definitions.
 #                           (default: "<image stream name>")
 
+set -x
 source /usr/local/bin/vars.sh
 
 for name in $(get_is_names); do
   echo "Adding ${name} imagestream as Jenkins Slave ..."
   K8S_PLUGIN_POD_TEMPLATES+=$(convert_is_to_slave ${name})
 done
+
+set +x
 
 echo "Processing Jenkins Kubernetes configuration (${CONFIG_PATH}) ..."
 envsubst < "${CONFIG_PATH}.tpl" > "${CONFIG_PATH}" && rm -f "${CONFIG_PATH}.tpl"
