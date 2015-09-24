@@ -3,7 +3,7 @@
 # This script launch a Jenkins swarm[1] plugin client which automatically
 # registers this container as a Jenkins slave.
 
-source /opt/app-src/jenkins/common.sh
+source /opt/app-root/jenkins/common.sh
 
 # TODO: This should be constructed from an environment variables
 JENKINS_MASTER_URL=${JENKINS_MASTER_URL:-http://jenkins:8080}
