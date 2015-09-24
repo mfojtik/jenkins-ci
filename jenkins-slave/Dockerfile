@@ -15,4 +15,4 @@ USER 1001
 
 # Run the JNLP client by default
 # To use swarm client, specify "/opt/app-root/jenkins/run-swarm-client" as Command
-CMD ["/opt/app-root/jenkins/run-jnlp-client"]
+ENTRYPOINT ["/opt/app-root/jenkins/run-jnlp-client"]
