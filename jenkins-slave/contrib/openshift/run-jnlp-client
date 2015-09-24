@@ -4,7 +4,7 @@
 # will use for the auto-discovery of this slave.
 #
 
-source ${JENKINS_HOME}/common.sh
+source /opt/app-src/jenkins/common.sh
 
 # In some cases the slave client does not pick up the user homedir
 # export _JAVA_OPTIONS=-Duser.home=${HOME}

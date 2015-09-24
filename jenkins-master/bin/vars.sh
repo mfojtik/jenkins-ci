@@ -31,7 +31,7 @@ function convert_is_to_slave() {
     <image>{{.status.dockerImageRepository}}</image>
     <privileged>false</privileged>
     <remoteFs>{{if index .metadata.annotations \"slave-directory\"}}{{index .metadata.annotations \"slave-directory\"}}{{else}}${DEFAULT_SLAVE_DIRECTORY}{{end}}</remoteFs>
-    <instanceCap>1</instanceCap>
+    <instanceCap>5</instanceCap>
     <label>{{if index .metadata.annotations \"slave-label\"}}{{index .metadata.annotations \"slave-label\"}}{{else}}${name}{{end}}</label>
   </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
   "
