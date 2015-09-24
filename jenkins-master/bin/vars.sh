@@ -11,9 +11,6 @@ export JENKINS_PASSWORD KUBERNETES_SERVICE_HOST KUBERNETES_SERVICE_PORT
 export ITEM_ROOTDIR="\${ITEM_ROOTDIR}" # Preserve this variable Jenkins has in config.xml
 export K8S_PLUGIN_POD_TEMPLATES=""
 
-oc_auth="--token=$(cat $AUTH_TOKEN) --certificate-authority=${KUBE_CA}"
-alias oc="oc -n ${PROJECT_NAME} --server=$OPENSHIFT_API_URL ${oc_auth}"
-
 # get_imagestream_names returns a list of imagestreams names that contains
 # label 'role=jenkins-slave'
 function get_is_names() {
