@@ -18,9 +18,6 @@
 set -x
 source /usr/local/bin/vars.sh
 
-oc_auth="--token=$(cat $AUTH_TOKEN) --certificate-authority=${KUBE_CA}"
-alias oc="oc -n ${PROJECT_NAME} --server=$OPENSHIFT_API_URL ${oc_auth}"
-
 for name in $(get_is_names); do
   echo "Adding ${name} imagestream as Jenkins Slave ..."
   K8S_PLUGIN_POD_TEMPLATES+=$(convert_is_to_slave ${name})

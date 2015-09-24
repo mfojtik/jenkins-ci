@@ -11,10 +11,13 @@ export JENKINS_PASSWORD KUBERNETES_SERVICE_HOST KUBERNETES_SERVICE_PORT
 export ITEM_ROOTDIR="\${ITEM_ROOTDIR}" # Preserve this variable Jenkins has in config.xml
 export K8S_PLUGIN_POD_TEMPLATES=""
 
+export oc_auth="--token=$(cat $AUTH_TOKEN) --certificate-authority=${KUBE_CA}"
+export oc_cmd="oc -n ${PROJECT_NAME} --server=$OPENSHIFT_API_URL ${oc_auth}"
+
 # get_imagestream_names returns a list of imagestreams names that contains
 # label 'role=jenkins-slave'
 function get_is_names() {
-  oc get is -l role=jenkins-slave -o template -t "{{range .items}}{{.metadata.name}} {{end}}"
+  $oc_cmd get is -l role=jenkins-slave -o template -t "{{range .items}}{{.metadata.name}} {{end}}"
 }
 
 # convert_is_to_slave converts the OpenShift imagestream to a Jenkins Kubernetes
@@ -45,6 +48,6 @@ function convert_is_to_slave() {
   </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
   "
   echo "${template}" > ${template_file}
-  oc get is/${name} -o templatefile -t ${template_file}
+  $oc_cmd get is/${name} -o templatefile -t ${template_file}
   rm -f ${template_file} &>/dev/null
 }
