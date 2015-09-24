@@ -36,9 +36,12 @@
       "apiVersion": "v1",
       "metadata": {
         "name": "${IMAGE_NAME}-jenkins-slave",
+        "annotations": {
+          "slave-label": "${IMAGE_NAME}",
+          "slave-directory": "/opt/app-root/jenkins"
+        },
         "labels": {
-          "role": "jenkins-slave",
-          "jenkins-label": "${IMAGE_NAME}"
+          "role": "jenkins-slave"
         }
       },
       "spec": {}
