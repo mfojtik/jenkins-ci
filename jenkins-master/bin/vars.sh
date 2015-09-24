@@ -48,6 +48,6 @@ function convert_is_to_slave() {
   </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
   "
   echo "${template}" > ${template_file}
-  oc get is/${name} -o templatefile --template=${templatefile}
+  oc get is/${name} -o templatefile -t ${template_file}
   rm -f ${template_file} &>/dev/null
 }
