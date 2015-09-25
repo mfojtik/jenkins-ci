@@ -1,8 +1,8 @@
 # OpenShift Jenkins CI
 
 This repository contains an example of Jenkins setup, that is configured to
-provide a CI/pipeline workflow for the
-[sample-app](sample-app) repository.
+demonstrate the CI/pipeline workflow for the [sample-app](sample-app) application
+using the Jenkins Master/Slave setup and automatization done on OpenShift v3.
 
 ## Create the CI project and the templates:
 
@@ -13,12 +13,16 @@ To start, you have to manually enter following commands in OpenShift:
 $ git clone https://github.com/mfojtik/jenkins-ci
 $ cd jenkins-ci
 
+# Now create the templates in the 'ci' and 'stage' projects
+$ oc create -f openshift
+
 # Create project and allow Jenkins to talk to OpenShift API
 $ oc new-project ci
 $ oc policy add-role-to-user edit system:serviceaccount:ci:default
 
-# Now create the templates
-$ oc create -f openshift
+# Create the 'staging' project where we deploy the sample-app for testing
+$ oc new-project stage
+$ oc policy add-role-to-user edit system:serviceaccount:stage:default
 ```
 
 ## Instantiating templates from OpenShift web console
@@ -126,6 +130,8 @@ The last step is to instantiate the `sample-app` template. The [sample
 app](sample-app) here is a simple Ruby application
 that runs Sinatra and have one unit test defined to exercise the CI flow.
 
+You have to instantiate the template in both `ci` and `stage` projects.
+
 ## Workflow
 
 You can see [watch the youtube](https://www.youtube.com/watch?v=HsdmSaz1zhs)
@@ -146,10 +152,14 @@ video that shows the full workflow. What happens in the video is:
    plugin. This job will leverage the OpenShift Jenkins plugin that will start a
    build of the Docker image which will contain 'sample-app'.
 
-3. When the Docker image is build successfully, you have to **manually promote**
-   the build to be deployed to OpenShift. Since re-deploying the application
-   replaces the existing running application, human intervention is needed
-   confirm this step.
+3. Once the new Docker image for the `sample-app` is built, the
+   `sample-app-stage` project will automatically deploy it into `stage` project
+   and notify the QA team about availability for testing.
+
+3. If the `sample-app` image pass the `stage` testing, you have to **manually
+   promote** the `sample-app-build` build to be deployed to OpenShift. Since
+   re-deploying the application replaces the existing running application, human
+   intervention is needed confirm this step.
 
 4. Once the build is promoted, the `sample-app-deploy` job is started. This job
    will scale down the existing application deployment and redeploy it using the

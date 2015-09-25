@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "sample-app",
+    "name": "sample-app-stage",
     "annotations": {
       "description": "This example shows how to create a simple ruby application in openshift origin v3",
       "iconClass": "icon-ruby",
@@ -10,7 +10,7 @@
     }
   },
   "labels": {
-    "template": "sample-app-template"
+    "template": "sample-app-stage"
   },
   "objects": [
     {
@@ -49,7 +49,7 @@
         "creationTimestamp": null
       },
       "spec": {
-        "host": "www.example.com",
+        "host": "stg.example.com",
         "to": {
           "kind": "Service",
           "name": "frontend"
@@ -62,67 +62,6 @@
         }
       },
       "status": {}
-    },
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "sample-app"
-      },
-      "spec": {},
-      "status": {
-        "dockerImageRepository": ""
-      }
-    },
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "ruby-22-centos7",
-        "creationTimestamp": null
-      },
-      "spec": {
-        "dockerImageRepository": "openshift/ruby-22-centos7"
-      }
-    },
-    {
-      "kind": "BuildConfig",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "sample-app",
-        "creationTimestamp": null,
-        "labels": {
-          "name": "sample-app"
-        }
-      },
-      "spec": {
-        "source": {
-          "type": "Git",
-          "contextDir": "sample-app",
-          "git": {
-            "uri": "https://github.com/mfojtik/jenkins-ci.git"
-          }
-        },
-        "strategy": {
-          "type": "Source",
-          "sourceStrategy": {
-            "from": {
-              "kind": "ImageStreamTag",
-              "name": "ruby-22-centos7:latest"
-            }
-          }
-        },
-        "output": {
-          "to": {
-            "kind": "ImageStreamTag",
-            "name": "sample-app:latest"
-          }
-        },
-        "resources": {}
-      },
-      "status": {
-        "lastVersion": 0
-      }
     },
     {
       "kind": "DeploymentConfig",
@@ -151,6 +90,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
+                "namespace": "ci",
                 "name": "sample-app:latest"
               }
             }
@@ -174,7 +114,7 @@
             "containers": [
               {
                 "name": "sample-app",
-                "image": "sample-app",
+                "image": "ci/sample-app",
                 "ports": [
                   {
                     "containerPort": 8080,
@@ -200,6 +140,6 @@
   ],
   "parameters": [],
   "labels": {
-    "template": "sample-app"
+    "template": "sample-app-stage"
   }
 }
