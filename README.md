@@ -4,6 +4,9 @@ This repository contains an example of Jenkins setup, that is configured to
 demonstrate the CI/pipeline workflow for the [sample-app](sample-app) application
 using the Jenkins Master/Slave setup and automatization done on OpenShift v3.
 
+<p align="center">
+<img width="420" src="https://raw.githubusercontent.com/mfojtik/jenkins-ci/master/jenkins-flow.png"/>
+</p>
 ## Create the CI project and the templates:
 
 To start, you have to manually enter following commands in OpenShift:
