@@ -14,8 +14,6 @@
 #                           (default: /opt/app-root/jenkins)
 # * `slave-label`         - The Jenkins Slave label that will be used in Job definitions.
 #                           (default: "<image stream name>")
-
-set -x
 source /usr/local/bin/vars.sh
 
 for name in $(get_is_names); do
@@ -23,8 +21,10 @@ for name in $(get_is_names); do
   K8S_PLUGIN_POD_TEMPLATES+=$(convert_is_to_slave ${name})
 done
 
-set +x
-
 echo "Processing Jenkins Kubernetes configuration (${CONFIG_PATH}) ..."
 envsubst < "${CONFIG_PATH}.tpl" > "${CONFIG_PATH}" && rm -f "${CONFIG_PATH}.tpl"
+
+# Don't show these in the Jenkins UI
+unset oc_auth oc_cmd K8S_PLUGIN_POD_TEMPLATES
+
 exec /usr/local/bin/run-jenkins "$@"
