@@ -16,9 +16,6 @@ To start, you have to manually enter following commands in OpenShift:
 $ git clone https://github.com/mfojtik/jenkins-ci
 $ cd jenkins-ci
 
-# Now create the templates in the 'ci' and 'stage' projects
-$ oc create -f openshift
-
 # Create project and allow Jenkins to talk to OpenShift API
 $ oc new-project ci
 $ oc policy add-role-to-user edit system:serviceaccount:ci:default
@@ -26,6 +23,9 @@ $ oc policy add-role-to-user edit system:serviceaccount:ci:default
 # Create the 'staging' project where we deploy the sample-app for testing
 $ oc new-project stage
 $ oc policy add-role-to-user edit system:serviceaccount:stage:default
+
+# Now create the templates in the 'ci' and 'stage' projects
+$ oc create -f openshift
 ```
 
 ## Instantiating templates from OpenShift web console
