@@ -23,9 +23,11 @@ $ oc policy add-role-to-user edit system:serviceaccount:ci:default
 # Create the 'staging' project where we deploy the sample-app for testing
 $ oc new-project stage
 $ oc policy add-role-to-user edit system:serviceaccount:stage:default
+$ oc policy add-role-to-user edit system:serviceaccount:ci:default
 
 # Now create the templates in the 'ci' and 'stage' projects
-$ oc create -f openshift
+$ oc create -f openshift -n ci
+$ oc create -f openshift/sample-app-stage.json
 ```
 
 ## Instantiating templates from OpenShift web console
