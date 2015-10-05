@@ -44,3 +44,4 @@ workflow-step-api:1.8
 workflow-support:1.8
 ws-cleanup:0.25
 swarm:2.0
+token-macro:1.10
