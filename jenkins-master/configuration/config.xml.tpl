@@ -49,7 +49,7 @@
       <skipTlsVerify>true</skipTlsVerify>
       <namespace>ci</namespace>
       <jenkinsUrl>http://jenkins:8080</jenkinsUrl>
-      <credentialsId></credentialsId>
+      <credentialsId>1a12dfa4-7fc5-47a7-aa17-cc56572a41c7</credentialsId>
       <containerCap>10</containerCap>
     </org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud>
   </clouds>

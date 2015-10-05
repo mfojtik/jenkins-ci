@@ -32,7 +32,6 @@
       <bldCfg>sample-app</bldCfg>
       <nameSpace>ci</nameSpace>
       <authToken></authToken>
-      <followLog>true</followLog>
     </com.openshift.openshiftjenkinsbuildutils.OpenShiftBuilder>
 
     <com.openshift.openshiftjenkinsbuildutils.OpenShiftDeploymentVerifier>
